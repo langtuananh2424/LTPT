@@ -1,5 +1,5 @@
-import java.util.*;
 import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class BTH1 {
     static class SumThread extends Thread {
@@ -23,9 +23,11 @@ public class BTH1 {
         public void run() {
             for (int i = start; i < end; i++) {
                 result += array[i];
-                String timeStamp = new SimpleDateFormat("HH:mm:ss").format(new Date());
-                System.out.println(threadName + ": " + array[i] + " : " + timeStamp);
+                // String timeStamp = new SimpleDateFormat("HH:mm:ss").format(new Date());
+                // System.out.println(threadName + ": " + array[i] + " : " + timeStamp);
             }
+            String timeStamp = new SimpleDateFormat("HH:mm:ss").format(new Date());
+            System.out.println(threadName + ": " + result + " : " + timeStamp);
         }
     }
 
@@ -101,14 +103,20 @@ public class BTH1 {
     }
 
     public static void main(String[] args) {
-        final int N = 100;
-        final int k = 5;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Nhap so phan tu N: ");
+        int N = scanner.nextInt();
+
+        System.out.print("Nhap so luong luong k: ");
+        int k = scanner.nextInt();
+
         int[] array = new int[N];
         Random random = new Random();
 
         // Sinh mảng ngẫu nhiên
         for (int i = 0; i < N; i++) {
-            array[i] = random.nextInt(1000);
+            array[i] = random.nextInt(10);
         }
 
         int chunkSize = N / k;
@@ -134,48 +142,15 @@ public class BTH1 {
             }
         }
 
+        // for (int i = 0; i < k; i++) {
+        //     System.out.println("Tong cua luong T" + (i + 1) + ": " + threads[i].getResult());
+        // }
+
+        int totalSum = 0;
         for (int i = 0; i < k; i++) {
-            System.out.println("Sum of T" + (i + 1) + ": " + threads[i].getResult());
+            totalSum += threads[i].getResult();
         }
+        System.out.println("Tong cua tat ca cac luong: " + totalSum);
 
-        // // Luồng tìm số chính phương
-        // System.err.println("Perfect Square Thread");
-        // PerfectSquareThread[] squareThreads = new PerfectSquareThread[k];
-        // for (int i = 0; i < k; i++) {
-        //     int start = i * chunkSize;
-        //     int end = (i == k - 1) ? N : start + chunkSize;
-        //     squareThreads[i] = new PerfectSquareThread(array, start, end, "T" + (i + 1));
-        //     squareThreads[i].start();
-        // }
-        // for (int i = 0; i < k; i++) {
-        //     try {
-        //         squareThreads[i].join();
-        //     } catch (InterruptedException e) {
-        //         e.printStackTrace();
-        //     }
-        // }
-        // for (int i = 0; i < k; i++) {
-        //     System.out.println("Perfect squares from T" + (i + 1) + ": " + squareThreads[i].getSquares());
-        // }
-
-        // // Luồng tìm số nguyên tố
-        // System.err.println("Prime Thread");
-        // PrimeThread[] primeThreads = new PrimeThread[k];
-        // for (int i = 0; i < k; i++) {
-        //     int start = i * chunkSize;
-        //     int end = (i == k - 1) ? N : start + chunkSize;
-        //     primeThreads[i] = new PrimeThread(array, start, end, "T" + (i + 1));
-        //     primeThreads[i].start();
-        // }
-        // for (int i = 0; i < k; i++) {
-        //     try {
-        //         primeThreads[i].join();
-        //     } catch (InterruptedException e) {
-        //         e.printStackTrace();
-        //     }
-        // }
-        // for (int i = 0; i < k; i++) {
-        //     System.out.println("Primes from T" + (i + 1) + ": " + primeThreads[i].getPrimes());
-        // }
     }
 }
